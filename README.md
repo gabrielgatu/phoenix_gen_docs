@@ -29,7 +29,7 @@ only the function documentation for now, maybe in the future I'll add other func
 To use this project just add this to mix.exs
 
 ```elixir
-{:phoenix_gen_docs, github: "https://github.com/gabrielgatu/phoenix_gen_docs"}
+{:phoenix_gen_docs, git: "https://github.com/gabrielgatu/phoenix_gen_docs", only: :dev}
 ```
 
 And
@@ -38,6 +38,30 @@ And
 `mix compile`
 
 Then use `mix phoenix.gen.docs` for generating the API docs. That's it :)
+
+## Usage
+
+Just write the documentation at the top of your action functions.
+
+Example: if you have in your router
+
+`get "/user/:id", MyController, :show`
+
+Then in the MyController module, above
+the `def show(conn, params) do` function,
+you'll write the docs.
+
+```
+@doc "Given an integer id in url params, it returns the relative user"
+def show(conn, params) do
+...
+end
+```
+
+Automatically it will be used as a documentation for this route.
+
+All the docs are contained inside the /docs folder, at the root
+of your project.
 
 ## License
 
