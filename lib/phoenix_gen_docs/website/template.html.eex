@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>API - <%= @app_name %></title>
+    <link rel="stylesheet" href="css/markdown.css" type="text/css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+
+        font-size: 14px;
+        font-family: "Helvetica Neue", "Helvetica", "sans-serif";
+
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+        -o-box-sizing: border-box;
+      }
+
+      #sidebar {
+        width: 300px;
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        bottom: 3px;
+        border: 1px solid rgb(232, 232, 232);
+        background-color: rgb(242, 242, 242);
+        overflow-y: auto;
+
+        border-radius: 4px;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        -ms-border-radius: 4px;
+        -o-border-radius: 4px;
+      }
+
+      #sidebar > .block {
+        margin-top: 16px;
+      }
+
+      #sidebar > .block:first-child {
+        margin-top: 8px;
+      }
+
+      #sidebar > .block > .header {
+        color: rgb(121, 121, 121);
+        font-weight: bolder;
+        margin-top: 16px;
+        margin-left: 8px;
+        font-size: 13px;
+      }
+
+      #sidebar > .block > .list {
+        margin-top: 10px;
+      }
+
+      #sidebar > .block > .list > a {
+        text-decoration: none;
+        color: rgb(15, 115, 195);
+        cursor: pointer;
+      }
+
+      #sidebar > .block > .list > a > .list-item {
+        margin-top: 1px;
+        list-style: none;
+        padding: 6px 0 6px 20px;
+        border-bottom: 1px solid #ebebeb;
+      }
+
+      #sidebar > .block > .list > a > .list-item > .method {
+        color: rgb(187, 187, 187);
+        font-size: 12px;
+        float: right;
+        margin-right: 8px;
+      }
+
+      #sidebar > .block > .list > a > .list-item.active,
+      #sidebar > .block > .list > a > .list-item:hover,
+      #sidebar > .block > .list > a > .list-item.active > .method,
+      #sidebar > .block > .list > a > .list-item:hover > .method {
+        color: #fff;
+        background-color: rgb(15, 115, 195);
+      }
+
+      #content {
+        position: absolute;
+        top: 3px;
+        left: 303px; /* Keep in mind the extra 3px space on the left of the sidebar! */
+        right: 0;
+        padding: 12px 32px;
+      }
+
+      #content > .header {
+        border-bottom: 1px solid rgb(232, 232, 232);
+        padding-bottom: 16px;
+      }
+
+      #content > .header > .method {
+        font-size: 32px;
+        font-weight: bold;
+        color: #222;
+      }
+
+      #content > .header > .path {
+        margin-left: 8px;
+        font-size: 20px;
+        color: rgb(133, 133, 133);
+      }
+
+      #content > .description {
+        margin-top: 16px;
+        line-height: 1.5em;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="sidebar">
+      <%= for {scope, routes} <- @scopes do %>
+        <div class="block">
+          <span class="header"><%= scope %></span>
+          <ul class="list">
+            <%= for route <- routes do %>
+              <a href='<%= "#{route.id}.html" %>'><li class="list-item <%= if @route.id == route.id, do: 'active' %>">
+                <%= route.path %>
+                <span class="method"><%= route.verb |> Atom.to_string() |> String.upcase() %></span>
+              </li></a>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+
+    <div id="content">
+      <div class="header">
+        <span class="method"><%= @route.verb |> Atom.to_string() |> String.upcase() %></span>
+        <span class="path"><%= @route.path %></span>
+      </div>
+      <div class="description markdown-body">
+        <span><%= @route.docs |> Earmark.to_html() %></span>
+      </div>
+    </div>
+  </body>
+</html>
