@@ -51,7 +51,7 @@ Then in the MyController module, above
 the `def show(conn, params) do` function,
 you'll write the docs.
 
-```
+```elixir
 @doc "Given an integer id in url params, it returns the relative user"
 def show(conn, params) do
 ...
@@ -60,7 +60,7 @@ end
 
 Automatically it will be used as a documentation for this route.
 
-All the docs are contained inside the /docs folder, at the root
+All the docs are contained inside the **/docs** folder, at the root
 of your project.
 
 ## License
