@@ -41,7 +41,8 @@ Then use `mix phoenix.gen.docs` for generating the API docs. That's it :)
 
 ## Usage
 
-Just write the documentation at the top of your action functions.
+Just write the documentation at the top of your action functions. Of course,
+markdown is supported and highly suggested.
 
 Example: if you have in your router
 
@@ -52,7 +53,25 @@ the `def show(conn, params) do` function,
 you'll write the docs.
 
 ```elixir
-@doc "Given an integer id in url params, it returns the relative user"
+@doc """
+Given an integer id in url params, it returns the relative user
+
+### Parameters
+
+- id: Integer
+
+### Result
+
+{
+  status: Integer,
+  data: {
+    id: Integer,
+    username: String,
+    email: String
+  },
+  errors: null | errors
+}
+"""
 def show(conn, params) do
 ...
 end
